@@ -38,7 +38,7 @@
 
   # Set number of processors to use, should be less than or equal
   #   to the total number of elements in your domain.
-  set num_procs = 384
+  set num_procs = 64
 
   # set walltime
   set walltime = '05:00:00'
@@ -52,12 +52,12 @@
   # (there are 3x3 unique columns per element, hence the "3" factor)
 
   # Set number of elements in the x&y directions
-  set num_ne_x = 20
-  set num_ne_y = 20
+  set num_ne_x = 10
+  set num_ne_y = 10
 
   # Set domain length [m] in x&y direction
-  set domain_size_x = 200000
-  set domain_size_y = 200000
+  set domain_size_x = 1024000
+  set domain_size_y = 1024000
 
   # BELOW SETS RESOLUTION DEPENDENT SETTINGS
   # (Note that all default values below are appropriate for dx=dy=3.33 km and do not
@@ -70,11 +70,11 @@
   #  decrease of the model time steps.
 
   # model and physics time step [s]
-  set model_dtime = 100
+  set model_dtime = 900
 
   # dynamics time step [s]
   #  should divide evenly into model_dtime
-  set dyn_dtime = 8.333333333333333d0
+  set dyn_dtime = 90
 
   # SET SECOND ORDER VISCOSITY NEAR MODEL TOP
   #  NOTE that if you decrease resolution you will also need to reduce
@@ -110,10 +110,10 @@
   set do_iop_subsidence = .false. # compute LS vertical transport?
   set do_turnoff_swrad = .false. # Turn off SW calculation
   set do_turnoff_lwrad = .false. # Turn off LW calculation
-  set startdate = 2006-01-17 # Start date in IOP file
+  set startdate = 2006-01-18 # Start date in IOP file
   set start_in_sec = 10800 # start time in seconds in IOP file
   set stop_option = ndays
-  set stop_n = 26
+  set stop_n = 8
   set iop_file = TWP06_iopfile_4scam.nc #IOP file name
 # End Case specific stuff here
 
@@ -173,7 +173,7 @@
   end
 
 # CAM configure options.  Set to SCREAM default settings.
-  set CAM_CONFIG_OPTS="-phys default -scam -dpcrm_mode -nlev 128 -shoc_sgs -microphys p3 -rad rrtmgp -chem spa -cppdefs '-DSCREAM'"
+  set CAM_CONFIG_OPTS="-phys default -scam -dpcrm_mode -nlev 72 -shoc_sgs -microphys p3 -rad rrtmgp -chem spa -cppdefs '-DSCREAM'"
 
   ./xmlchange CAM_CONFIG_OPTS="$CAM_CONFIG_OPTS"
 
@@ -202,7 +202,7 @@ cat <<EOF >> user_nl_eam
  use_gw_front = .false.
  use_gw_oro = .false.
  use_gw_convect = .false.
- deep_scheme = 'off'
+ deep_scheme = 'ZM'
  convproc_do_aer = .false.
  iop_dosubsidence = $do_iop_subsidence
  iop_nudge_tq = $do_iop_nudge_tq
@@ -211,7 +211,7 @@ cat <<EOF >> user_nl_eam
  micro_tend_output = .false.
  fexcl1='FICE','EXTINCT','FREQI','FREQL','FREQR','FREQS','RELVAR','TOT_CLD_VISTAU','TOT_ICLD_VISTAU','UU','VQ','VT','VU','VV','WSUB','AODABS','AODABSBC','AODALL','AODBC','AODDUST','AODDUST1','AODDUST3','AODMODE1','AODMODE2','AODMODE3','AODNIR','AODPOM','AODSO4','AODSOA','AODSS','AODUV','AODVIS','BURDEN1','BURDEN2','BURDEN3','CCN3' fincl2='CAPE','CIN','CLDLOW','CLDMED','CLDHGH','CLDTOT','CDNUMC','DTENDTH','DTENDTQ','FLDS','FLNS','FLNSC','FLNT','FLNTC','FLUT','FLUTC','FSDS','FSDSC','FSNS','FSNSC','FSNT','FSNTC','FSNTOA','FSNTOAC','FSUTOA','FSUTOAC','LHFLX','SHFLX','LWCF','SWCF','OMEGA500','PRECL','PS','QREFHT','SOLIN','TAUX','TAUY','TGCLDCWP','TGCLDIWP','TGCLDLWP','TH7001000','TMQ','TREFHT','TS','crm_grid_x','crm_grid_y'
  mfilt = 5000, 5000
- nhtfrq = -24, -1
+ nhtfrq = -24, 2
  avgflag_pertape='A','I'
  scmlat = $lat
  scmlon = $lon
