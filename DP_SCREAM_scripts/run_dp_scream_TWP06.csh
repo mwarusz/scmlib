@@ -12,19 +12,19 @@
 #######  BEGIN USER DEFINED SETTINGS
 
   # Set the name of your case here
-  setenv casename scream_dp_TWP06
+  setenv casename scream_dp_TWP06_gridsize_bug_gnu
 
   # Set the case directory here
-  setenv casedirectory /pscratch/sd/b/bogensch/dp_scream
+  setenv casedirectory /lcrc/group/acme/ac.mwaruszewski/dp
 
   # Directory where code lives
-  setenv code_dir /global/homes/b/bogensch/ACME_development
+  setenv code_dir /home/ac.mwaruszewski/E3SM
 
   # Code tag name
-  setenv code_tag SCREAM_DP
+  setenv code_tag
 
   # Name of machine you are running on (i.e. cori, anvil, etc)
-  setenv machine pm-cpu
+  setenv machine chrysalis
 
   # Name of project to run on, if submitting to queue
   setenv projectname e3sm
@@ -38,10 +38,10 @@
 
   # Set number of processors to use, should be less than or equal
   #   to the total number of elements in your domain.
-  set num_procs = 384
+  set num_procs = 1
 
   # set walltime
-  set walltime = '05:00:00'
+  set walltime = '00:30:00'
 
   ## SET DOMAIN SIZE AND RESOLUTION:
   # - Note that these scripts are set to run with dx=dy=3.33 km
@@ -52,12 +52,12 @@
   # (there are 3x3 unique columns per element, hence the "3" factor)
 
   # Set number of elements in the x&y directions
-  set num_ne_x = 20
-  set num_ne_y = 20
+  set num_ne_x = 80
+  set num_ne_y = 80
 
   # Set domain length [m] in x&y direction
-  set domain_size_x = 200000
-  set domain_size_y = 200000
+  set domain_size_x = 800000
+  set domain_size_y = 800000
 
   # BELOW SETS RESOLUTION DEPENDENT SETTINGS
   # (Note that all default values below are appropriate for dx=dy=3.33 km and do not
@@ -112,8 +112,8 @@
   set do_turnoff_lwrad = .false. # Turn off LW calculation
   set startdate = 2006-01-17 # Start date in IOP file
   set start_in_sec = 10800 # start time in seconds in IOP file
-  set stop_option = ndays
-  set stop_n = 26
+  set stop_option = nsteps
+  set stop_n = 1
   set iop_file = TWP06_iopfile_4scam.nc #IOP file name
 # End Case specific stuff here
 
@@ -143,7 +143,7 @@
   set case_run_dir     = $run_root_dir/run
 
 # Create new case
-  ./create_newcase -case $casename --script-root $temp_case_scripts_dir -mach $machine -project $PROJECT -compset $compset -res $grid
+  ./create_newcase -case $casename --script-root $temp_case_scripts_dir -mach $machine -project $PROJECT -compset $compset -res $grid --compiler gnu
   cd $temp_case_scripts_dir
 
   ./xmlchange JOB_WALLCLOCK_TIME=$walltime
